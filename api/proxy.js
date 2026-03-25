@@ -18,9 +18,10 @@ export default async function handler(req, res) {
       timeout: 10000
     });
 
-    res.set('Content-Type', response.headers['content-type']);
-    res.set('Content-Length', response.headers['content-length']);
-    res.send(Buffer.from(response.data));
+    const buffer = Buffer.from(response.data);
+    res.set('Content-Type', response.headers['content-type'] || 'image/jpeg');
+    res.set('Content-Length', buffer.length);
+    res.send(buffer);
   } catch (error) {
     res.status(500).send('Proxy error');
   }
